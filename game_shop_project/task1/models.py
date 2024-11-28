@@ -2,12 +2,12 @@ from django.db import models
 
 class Buyer(models.Model):
     name = models.CharField(max_length=150, verbose_name="Имя покупателя")
-    balance = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Баланс")
+    balance = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Баланс", default=0.00)
     age = models.PositiveIntegerField(verbose_name="Возраст")
+    password = models.CharField(max_length=255, verbose_name="Пароль", null=True)
 
     def __str__(self):
         return self.name
-
 
 class Game(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название игры")
@@ -19,3 +19,4 @@ class Game(models.Model):
 
     def __str__(self):
         return self.title
+
