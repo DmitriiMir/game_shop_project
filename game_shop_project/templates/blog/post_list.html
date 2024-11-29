@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post List</title>
+    <style>
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: blue;
+        }
+
+        .pagination a.active {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Posts</h1>
+    <ul>
+        {% for post in page_obj %}
+            <li>
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                <small>Published: {{ post.created_at }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form method="get" action="">
+        <label for="per_page">Posts per page:</label>
+        <select name="per_page" id="per_page" onchange="this.form.submit()">
+            <option value="5" {% if per_page|default:5 == '5' %}selected{% endif %}>5</option>
+            <option value="10" {% if per_page|default:5 == '10' %}selected{% endif %}>10</option>
+            <option value="20" {% if per_page|default:5 == '20' %}selected{% endif %}>20</option>
+        </select>
+    </form>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            <a href="?page={{ num }}&per_page={{ per_page }}" {% if page_obj.number == num %}class="active"{% endif %}>
+                {{ num }}
+            </a>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>
