@@ -1,4 +1,7 @@
 from django.db import models
+from .models_pg import Category, Developer
+
+
 
 class Buyer(models.Model):
     name = models.CharField(max_length=150, verbose_name="Имя покупателя")
@@ -16,7 +19,10 @@ class Game(models.Model):
     description = models.TextField(verbose_name="Описание")
     age_limited = models.BooleanField(default=False, verbose_name="Ограничение 18+")
     buyers = models.ManyToManyField(Buyer, related_name="games", verbose_name="Обладатели")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="games", verbose_name="Категория")
+    developer = models.ForeignKey(Developer, on_delete=models.CASCADE, related_name="games", verbose_name="Разработчик")
 
     def __str__(self):
         return self.title
+
 
